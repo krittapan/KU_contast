@@ -1,9 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:ku_contest/constant.dart';
 import 'package:ku_contest/screen/post_screen/post_screen.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   String? bibid = Uri.base.queryParameters["bibid"];
+  await Firebase.initializeApp();
   runApp(MyApp(bibid: bibid!));
 }
 
@@ -19,15 +22,18 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: "KU Contest",
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primaryColor: kPrimaryColor,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: PostScreen(
-        bibid: widget.bibid,
-      ),
-    );
+        title: "KU Contest",
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          primaryColor: kPrimaryColor,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: widget.bibid == null
+            ? const Scaffold(
+                body: Text('null bibid'),
+              )
+            : PostScreen(
+                bibid: widget.bibid,
+              ));
   }
 }

@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:ku_contest/Firebase/database_manager.dart';
 
 class PostScreen extends StatefulWidget {
   String bibid;
@@ -19,16 +20,25 @@ class _PostScreenState extends State<PostScreen> {
       body: ListView(
         children: [
           const SizedBox(height: 40),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: SizedBox(
-              height: size.height * 0.6,
-              width: double.infinity,
-              child: CachedNetworkImage(
-                imageUrl:
-                    'https://kucontest.net/wp-content/uploads/2021/10/LINE_ALBUM_%E0%B9%82%E0%B8%9B%E0%B9%80%E0%B8%95%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B9%82%E0%B8%84%E0%B8%A3%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%87%E0%B8%A7%E0%B8%B1%E0%B8%A5%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%A0%E0%B8%B2%E0%B8%9E-%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%97%E0%B8%B5%E0%B9%88-14-_3.jpg',
-                fit: BoxFit.scaleDown,
-              ),
+          Container(
+            height: size.height * 0.8,
+            width: double.infinity,
+            child: FutureBuilder(
+              future: FireStoreDataBase(bibid: widget.bibid).getData(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return const Text(
+                    "Something went wrong",
+                  );
+                }
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return CachedNetworkImage(imageUrl: snapshot.data.toString());
+                  // return Image.network(
+                  //   snapshot.data.toString(),
+                  // );
+                }
+                return const Center(child: CircularProgressIndicator());
+              },
             ),
           ),
           Center(
