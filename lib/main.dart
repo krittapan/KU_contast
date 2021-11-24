@@ -22,18 +22,20 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: "KU Contest",
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          primaryColor: kPrimaryColor,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-        ),
-        home: widget.bibid == null
-            ? const Scaffold(
-                body: Text('null bibid'),
-              )
-            : PostScreen(
-                bibid: widget.bibid,
-              ));
+      title: "KU Contest",
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        primaryColor: kPrimaryColor,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      // ignore: unnecessary_null_comparison
+      home: widget.bibid == null
+          ? const Scaffold(
+              body: Center(
+                child: Text('null bibid'),
+              ),
+            )
+          : PostScreen(bibid: widget.bibid),
+    );
   }
 }
