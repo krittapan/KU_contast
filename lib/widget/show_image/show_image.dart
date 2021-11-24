@@ -5,7 +5,8 @@ import 'package:ku_contest/Firebase/database_manager.dart';
 class ShowImage extends StatelessWidget {
   final String bibid;
 
-  ShowImage(this.bibid);
+  // ignore: use_key_in_widget_constructors
+  const ShowImage(this.bibid);
 
   @override
   Widget build(BuildContext context) {

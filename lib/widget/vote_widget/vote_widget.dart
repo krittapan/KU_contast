@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 
@@ -57,7 +60,7 @@ class _VoteWidgetState extends State<VoteWidget> {
           ),
           const SizedBox(height: 20),
           Container(
-            width: widget.size.width * 0.8,
+            width: widget.size.width * 0.6,
             child: TextFormField(
               keyboardType: TextInputType.multiline,
               maxLines: null,
@@ -74,24 +77,46 @@ class _VoteWidgetState extends State<VoteWidget> {
             child: ElevatedButton(
               onPressed: () {
                 showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return RatingBarIndicator(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return AlertDialog(
+                      title: const Text('ยืนยันการลงคะแนน'),
+                      content: RatingBarIndicator(
                         rating: _rating,
                         itemBuilder: (context, index) => const Icon(
                           Icons.star,
                           color: Colors.amber,
                         ),
                         itemCount: 5,
-                        itemSize: 50.0,
+                        itemSize: 25.0,
                         unratedColor: Colors.amber.withAlpha(50),
                         direction: Axis.horizontal,
-                      );
-                    });
-                // await _voteCollection.add({
-                //   "bibid": widget.bibid,
-                //   "rating": _rating,
-                // });
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                          child: const Text('ตกลง'),
+                          onPressed: () async {
+                            await _voteCollection.add(
+                              {
+                                "bibid": widget.bibid,
+                                "rating": _rating,
+                                "time": DateTime.now(),
+                              },
+                            );
+                            //Navigator.pop(context);
+                            exit(0);
+                          },
+                        ),
+                        TextButton(
+                          child: const Text('ยกเลิก'),
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                        )
+                      ],
+                    );
+                  },
+                );
               },
               child: const Text('ลงคะแนน'),
             ),
