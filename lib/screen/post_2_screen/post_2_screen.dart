@@ -2,24 +2,18 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:ku_contest/constant.dart';
-import 'package:ku_contest/widget/vote_widget/vote_widget.dart';
 
-class PostScreen extends StatefulWidget {
+class Post2Screen extends StatefulWidget {
   String bibid;
-  String uid;
   String redirect;
-  PostScreen(
-      {Key? key,
-      required this.bibid,
-      required this.uid,
-      required this.redirect})
+  Post2Screen({Key? key, required this.bibid, required this.redirect})
       : super(key: key);
 
   @override
-  State<PostScreen> createState() => _PostScreenState();
+  State<Post2Screen> createState() => _Post2ScreenState();
 }
 
-class _PostScreenState extends State<PostScreen> {
+class _Post2ScreenState extends State<Post2Screen> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -69,12 +63,6 @@ class _PostScreenState extends State<PostScreen> {
                     widget.bibid == null
                         ? "bibid is null"
                         : "bibid = " + widget.bibid,
-                  ),
-                  VoteWidget(
-                    bibid: widget.bibid,
-                    uid: widget.uid,
-                    size: size,
-                    redirect: widget.redirect,
                   ),
                 ],
               ),
