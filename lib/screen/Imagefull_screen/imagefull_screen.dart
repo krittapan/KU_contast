@@ -1,16 +1,46 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:photo_view/photo_view.dart';
 
 class ImageFullscreen extends StatelessWidget {
-  const ImageFullscreen({Key? key}) : super(key: key);
+  String urlImage;
+  ImageFullscreen({Key? key, required this.urlImage}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-            image: NetworkImage(
-                'https://kucontest.net/wp-content/uploads/2021/10/LINE_ALBUM_%E0%B9%82%E0%B8%9B%E0%B9%80%E0%B8%95%E0%B8%AD%E0%B8%A3%E0%B9%8C%E0%B9%82%E0%B8%84%E0%B8%A3%E0%B8%87%E0%B8%81%E0%B8%B2%E0%B8%A3%E0%B8%A3%E0%B8%B2%E0%B8%87%E0%B8%A7%E0%B8%B1%E0%B8%A5%E0%B8%84%E0%B8%B8%E0%B8%93%E0%B8%A0%E0%B8%B2%E0%B8%9E-%E0%B8%84%E0%B8%A3%E0%B8%B1%E0%B9%89%E0%B8%87%E0%B8%97%E0%B8%B5%E0%B9%88-14-_3.jpg'),
-            fit: BoxFit.cover),
+    Size size = MediaQuery.of(context).size;
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            child: PhotoView(
+              imageProvider: NetworkImage(urlImage),
+              minScale: PhotoViewComputedScale.contained * 0.8,
+              maxScale: PhotoViewComputedScale.covered * 1.8,
+            ),
+          ),
+          Positioned(
+            bottom: 25,
+            left: 20,
+            right: 20,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: const Color(0xffB2BB1E),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 22, vertical: 22),
+                  ),
+                  child: const Text('ยอนกลับ'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

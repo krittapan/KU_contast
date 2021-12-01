@@ -42,7 +42,7 @@ class _VoteWidgetState extends State<VoteWidget> {
   }
 
   void htmlOpenLink() {
-    html.window.open(widget.redirect, '_blank');
+    html.window.open(widget.redirect, '_self');
   }
 
   @override
@@ -88,6 +88,10 @@ class _VoteWidgetState extends State<VoteWidget> {
         Container(
           width: widget.size.width * 0.3,
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: const Color(0xffB2BB1E),
+              padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 22),
+            ),
             onPressed: () {
               showDialog(
                 context: context,
