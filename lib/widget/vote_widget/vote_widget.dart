@@ -33,6 +33,8 @@ class _VoteWidgetState extends State<VoteWidget> {
   final Future<FirebaseApp> firebase = Firebase.initializeApp();
   CollectionReference _voteCollection =
       FirebaseFirestore.instance.collection("vote");
+  CollectionReference _consenCollection =
+      FirebaseFirestore.instance.collection("consen");
 
   @override
   void initState() {
@@ -121,7 +123,11 @@ class _VoteWidgetState extends State<VoteWidget> {
                               "rating": _rating,
                               "comment": commentController.text,
                             },
-                          );
+                          ).whenComplete(() async {
+                            await _consenCollection.doc(widget.bibid).update({
+                              widget.uid: _rating,
+                            });
+                          });
                           htmlOpenLink();
                         },
                       ),
